@@ -1,0 +1,21 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /tmp
+hooks:
+  ApplicationStop:
+    - location: scripts/stop-docker-container.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/install-docker.sh
+      timeout: 300
+      runas: root
+    - location: scripts/login-ecr.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start-docker-container.sh
+      timeout: 300
+      runas: root
