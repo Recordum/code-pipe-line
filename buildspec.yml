@@ -31,3 +31,6 @@ phases:
       - "echo 'Docker image pushed to ECR.'"
       - "echo 'Image URI: $IMAGE_URI'"
       - "echo 'Post_build phase completed.'"
+artifacts:
+  files:
+    - appspec.yml
