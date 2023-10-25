@@ -6,17 +6,17 @@ phases:
       - echo "AWS_REGION: $AWS_REGION"
       - echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
       - echo "REPOSITORY_NAME: $REPOSITORY_NAME"
-      - $(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com)
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPOSITORY_NAME
+      - "LOGIN_COMMAND=$(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com)"
+      - "REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPOSITORY_NAME"
       - echo "REPOSITORY_URI: $REPOSITORY_URI"
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - "COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)"
       - echo "COMMIT_HASH: $COMMIT_HASH"
-      - IMAGE_URI=$REPOSITORY_URI:$COMMIT_HASH
+      - "IMAGE_URI=$REPOSITORY_URI:$COMMIT_HASH"
       - echo "IMAGE_URI: $IMAGE_URI"
   build:
     commands:
-      - docker build -t $IMAGE_URI .
+      - "docker build -t $IMAGE_URI ."
   post_build:
     commands:
-      - docker push $IMAGE_URI
+      - "docker push $IMAGE_URI"
       - echo "Image URI: $IMAGE_URI"
