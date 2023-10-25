@@ -3,6 +3,4 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "AWS_REGION: $AWS_REGION"
-      - echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
-      - echo "REPOSITORY_NAME: $REPOSITORY_NAME"
+      - echo "Hello, World!"
