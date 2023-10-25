@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_TAG: "latest"
+
+phases:
+  pre_build:
+    commands:
+      - $(aws ecr get-login --no-include-email --region ap-northeast-2)
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-2.amazonaws.com/$REPOSITORY_NAME
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_URI=$REPOSITORY_URI:$COMMIT_HASH
+  build:
+    commands:
+      - docker build -t $IMAGE_URI .
+  post_build:
+    commands:
+      - docker push $IMAGE_URI
+      - echo "Image URI: $IMAGE_URI"
