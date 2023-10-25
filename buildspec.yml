@@ -3,4 +3,31 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Hello, World!"
+      - echo "Starting pre_build phase..."
+      - echo "AWS_REGION: $AWS_REGION"
+      - echo "AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID"
+      - echo "REPOSITORY_NAME: $REPOSITORY_NAME"
+      - "LOGIN_COMMAND=$(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com)"
+      - echo "ECR Login command executed."
+      - "REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPOSITORY_NAME"
+      - echo "REPOSITORY_URI: $REPOSITORY_URI"
+      - "COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)"
+      - echo "COMMIT_HASH: $COMMIT_HASH"
+      - "IMAGE_URI=$REPOSITORY_URI:$COMMIT_HASH"
+      - echo "IMAGE_URI: $IMAGE_URI"
+      - echo "Pre_build phase completed."
+
+  build:
+    commands:
+      - echo "Starting build phase..."
+      - "docker build -t $IMAGE_URI ."
+      - echo "Docker image built."
+      - echo "Build phase completed."
+
+  post_build:
+    commands:
+      - echo "Starting post_build phase..."
+      - "docker push $IMAGE_URI"
+      - echo "Docker image pushed to ECR."
+      - echo "Image URI: $IMAGE_URI"
+      - echo "Post_build phase completed."
