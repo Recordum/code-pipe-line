@@ -10,14 +10,12 @@ $(aws ecr get-login-password --region ap-northeast-2 | docker login --username A
 
 docker pull $IMAGE_NAME
 
-CONTAINER_ID=$(docker run -d --name server-sample --log-driver=awslogs \
-                           --log-opt awslogs-region=ap-northeast-2 \
-                           --log-opt awslogs-group=$LOG_GROUP_NAME \
-                           --log-opt awslogs-create-group=true \
-                           $IMAGE_NAME)
+LOG_STREAM_NAME="server-sample-log-stream-$(date +'%Y%m%d%H%M%S')"
 
-docker update --log-driver=awslogs \
-              --log-opt awslogs-region=ap-northeast-2 \
-              --log-opt awslogs-group=$LOG_GROUP_NAME \
-              --log-opt awslogs-stream=$CONTAINER_ID \
-              $CONTAINER_ID
+docker run -d --name server-sample \
+  --log-driver=awslogs \
+  --log-opt awslogs-region=ap-northeast-2 \
+  --log-opt awslogs-group=$LOG_GROUP_NAME \
+  --log-opt awslogs-stream=$LOG_STREAM_NAME \
+  --log-opt awslogs-create-group=true \
+  $IMAGE_NAME
