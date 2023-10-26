@@ -1,6 +1,14 @@
 version: 0.0
 os: linux
+files:
+  - source: /
+    destination: /tmp
 hooks:
-  AfterInstall:
+  ApplicationStop:
+    - location: scripts/stop_container.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
     - location: scripts/pull_and_run_container.sh
       timeout: 300
+      runas: root
