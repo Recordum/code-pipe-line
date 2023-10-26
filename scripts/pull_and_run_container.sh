@@ -1,5 +1,5 @@
 #!/bin/bash
-soruce ~/.bashrc
+source ~/.bashrc
 # Docker 이미지 이름
 AWS_ID=$AWS_ID
 IMAGE_NAME="$AWS_ID.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest"
