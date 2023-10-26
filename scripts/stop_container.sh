@@ -1,2 +1,4 @@
 #!/bin/bash
-docker stop server-sample
+if [ "$(docker ps -q -f name=server-sample)" ]; then
+    docker stop server-sample
+fi
