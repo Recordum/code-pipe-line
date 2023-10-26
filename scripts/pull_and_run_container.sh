@@ -2,7 +2,10 @@
 source ~/.bashrc
 # Docker 이미지 이름
 AWS_ID=$AWS_ID
-IMAGE_NAME="$AWS_ID.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest"
+
+echo $AWS_ID
+
+IMAGE_NAME="368081054787.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest"
 
 # 로그 그룹 이름
 LOG_GROUP_NAME="sample-nestjs"
