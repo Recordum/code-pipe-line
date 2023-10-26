@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="https://your-server.com/health"
+URL="http://localhost:3000"
 MAX_ATTEMPTS=3
 
 for (( i=1; i<=$MAX_ATTEMPTS; i++ )); do

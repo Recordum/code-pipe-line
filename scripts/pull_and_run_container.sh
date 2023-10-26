@@ -12,7 +12,7 @@ docker pull $IMAGE_NAME
 
 LOG_STREAM_NAME="server-sample-log-stream-$(date +'%Y%m%d%H%M%S')"
 
-docker run -d --name server-sample \
+docker run -p 3001:3001 -d --name server-sample \
   --log-driver=awslogs \
   --log-opt awslogs-region=ap-northeast-2 \
   --log-opt awslogs-group=$LOG_GROUP_NAME \
