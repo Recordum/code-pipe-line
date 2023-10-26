@@ -1,2 +1,2 @@
 #!/bin/bash
-docker stop server
+docker stop server-sample
